@@ -1,4 +1,4 @@
-<?php
+<?php error_reporting(0);
 /**
  * 基于苏晓晴版本修改并增加稳定性
  * (c) GBCLStudio
@@ -13,11 +13,11 @@ $cookie = $config['Request']['cookie'];
 $header = $config['Request']['header'];
 $useragent = $config['Request']['header'];
 
+header('Content-type: text/json;charset=utf-8');
 /**
   * 是否开启缓存
   */
 if ($config['common']['DisableCache'] == true){
-header('Content-type: text/json;charset=utf-8');
 header('Pragma:no-cache,no-store');
 header('Cache-Control:no-cache,must-revalidate,no-store');
 }
@@ -26,7 +26,6 @@ header('Cache-Control:no-cache,must-revalidate,no-store');
  * $urls = 'https://b23.tv/3ygbgeA';
  * $bv = 'BV1XT411A7HF';
  */
-
 $urls = $_GET['url'];
 $bv = $_GET['id'];
 $returnType = $_GET['type'];
@@ -65,7 +64,7 @@ if (empty($array) and empty($bv)) { //默认empty的返回
 }
 
 
-$bvid = str_replace("/video/", "", $bvid);
+$bvid = str_replace("/video/", "", $bvid); //这段是什么意思来着
 
 /**
   * 获取解析需要的cid值和图片以及标题
