@@ -28,7 +28,7 @@
 
 #### Request 部分：
 
-cookie就是上文提到的填写cookie处，具体格式为_uuid=XXXXX （一大坨cookie里就只要这一段），不填就没有1080p的选项了
+cookie就是上文提到的填写cookie处，F12的网络里找第一个请求翻到cookie那块全部复制就行（实测只有uuid那一段解析不出720p以上，估计改了）
 
 ua和header是请求b站api时用到的，默认忽略就行
 
