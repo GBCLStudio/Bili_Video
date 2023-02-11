@@ -22,7 +22,7 @@ header('Pragma:no-cache,no-store');
 header('Cache-Control:no-cache,must-revalidate,no-store');
 }
 
-/** 几个小示例
+/** 示例
  * $urls = 'https://b23.tv/3ygbgeA';
  * $bv = 'BV1XT411A7HF';
  */
@@ -45,17 +45,10 @@ if (empty($array) and empty($bv)) { //默认empty的返回
 }elseif ($array['host'] == 'm.bilibili.com') { //处理m站
     $bvid = $array['path'];
 }elseif (!empty($bv)) { //处理bv号
-    if (stristr($bv,"av") !== false)
+    if (stristr($bv,"av"))
     {
         $avid = explode("av",strtolower($bv)); //任何大小写敏感，终将，绳之以法！
-        $QueryBvUrl = bilibili('http://api.bilibili.com/x/web-interface/archive/stat?aid=' . $avid[1]
-                              , $header
-                              , $useragent
-                              , $cookie
-                              );
-        $QueryArray = json_decode($QueryBvUrl);
-        $result = $QueryArray->{'data'}->{'bvid'};
-        $bvid = $result;
+        $bvid = av2bv($avid[1]);
     }else{
         $bvid = $bv;
     }
@@ -95,6 +88,7 @@ if($array['code'] == '0'){
         $badurl = parse_url($array_2['data']['durl'][0]['url']); //获取并解析带有防盗链的视频url
         $video_host = array( //咱就是说只有一个域名怎么行呢
             "upos-sz-mirrorali",
+            "upos-sz-mirrorali02",
             "upos-sz-mirroralib",
             "upos-sz-mirroralio1",
             "upos-sz-mirroraliov",
@@ -102,11 +96,14 @@ if($array['code'] == '0'){
             "upos-sz-mirrorcosov",
             "upos-sz-mirrorcoso1",
             "upos-sz-mirrorcosb",
+            "upos-sz-estgoss",
+            "upos-sz-estgoss02",
             "upos-sz-mirrorhw",
             "upos-sz-mirrorhwo1",
             "upos-sz-mirrorhwb",
             "upos-sz-mirrorhwdisp",
             "upos-tf-all-hw",
+            "upos-sz-mirrorks3c",
             "upos-sz-mirror08ct"
         );
         shuffle($video_host); //打乱数组
@@ -158,4 +155,18 @@ function bilibili($url, $header, $user_agent, $cookie) { //curl
     curl_close ($ch);
     return $output;
 }
+
+/** convert bvid from passing avid
+ * @param $av
+ * @return string
+ */
+function av2bv($av): string
+    {
+        $r=['B','V','1',' ',' ','4',' ','1',' ','7',' ',' '];
+        foreach ($r as $i=>$v) {
+            if($i>=6) break;
+            $r[[11,10,3,8,4,6][$i]]='fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF'[floor(((($av^177451812)+8728348608)/pow(58,$i)))%58];
+        }
+        return join("", $r);
+    }
 ?>
