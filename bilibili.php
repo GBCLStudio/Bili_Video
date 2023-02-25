@@ -22,42 +22,11 @@ header('Pragma:no-cache,no-store');
 header('Cache-Control:no-cache,must-revalidate,no-store');
 }
 
-/** 示例
- * $urls = 'https://b23.tv/3ygbgeA';
- * $bv = 'BV1XT411A7HF';
- */
-$urls = $_GET['url'];
-$bv = $_GET['id'];
+$video = $_GET['video'];
 $returnType = $_GET['type'];
 $array = parse_url($urls);
 
-/**
-  * 解析原视频链接 or bv号
-  */
-if (empty($array) and empty($bv)) { //默认empty的返回
-    exit(json_encode(['code'=>-1, 'msg'=>"输入参数不正确"], 480));
-}elseif ($array['host'] == 'b23.tv') { //处理短链接
-    $header = get_headers($urls,true);
-    $array = parse_url($header['Location']);
-    $bvid = $array['path'];
-}elseif ($array['host'] == 'www.bilibili.com') { //处理www
-    $bvid = $array['path'];
-}elseif ($array['host'] == 'm.bilibili.com') { //处理m站
-    $bvid = $array['path'];
-}elseif (!empty($bv)) { //处理bv号
-    if (stristr($bv,"av"))
-    {
-        $avid = explode("av",strtolower($bv)); //任何大小写敏感，终将，绳之以法！
-        $bvid = av2bv($avid[1]);
-    }else{
-        $bvid = $bv;
-    }
-}else{
-    exit(json_encode(['code'=>-1, 'msg'=>"参数好像不太对！"], 480));
-}
-
-
-$bvid = str_replace("/video/", "", $bvid); //这段是什么意思来着
+$bvid = getBvid($video);
 
 /**
   * 获取解析需要的cid值和图片以及标题
@@ -168,5 +137,31 @@ function av2bv($av): string
             $r[[11,10,3,8,4,6][$i]]='fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF'[floor(((($av^177451812)+8728348608)/pow(58,$i)))%58];
         }
         return join("", $r);
+    }
+
+function getBvid(string $video){
+        if (filter_var($video,FILTER_VALIDATE_URL)) {
+            global $bvid;
+            $array = parse_url($video);
+            if ($array['host'] == 'b23.tv') { //处理短链接
+                $header = get_headers($video, true);
+                $array = parse_url($header['Location'][0]);
+                $bvid = $array['path'];
+            } elseif ($array['host'] == 'www.bilibili.com') { //处理www
+                $bvid = $array['path'];
+            } elseif ($array['host'] == 'm.bilibili.com') { //处理m站
+                $bvid = $array['path'];
+            }
+            $bvid = str_replace("/video/", "", $bvid);
+
+        } elseif (stristr($video, "av")) {
+            $avid = explode("av", strtolower($video));
+            $bvid = av2bv($avid[1]);
+        } elseif (stristr($video, "bv")) {
+            $bvid = $video;
+        } else{
+            exit(json_encode(['code' => '-1','msg' => '输入参数有误！'],JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        }
+        return $bvid;
     }
 ?>
