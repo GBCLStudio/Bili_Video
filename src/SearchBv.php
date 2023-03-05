@@ -164,7 +164,6 @@ class SearchBv
             return [
                 'code' => 1
                 , 'msg' => 'success'
-                , 'cache_ttl' => 300
                 , 'title' => $array['data']['title']
                 , 'imgurl' => $array['data']['pic']
                 , 'desc' => $array['data']['desc']
