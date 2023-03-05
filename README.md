@@ -9,7 +9,7 @@
 通过 Composer 安装：
 
 ```shell
-composer install gbcl/searchbv
+composer require gbcl/searchbv
 ```
 
 调用示范：
