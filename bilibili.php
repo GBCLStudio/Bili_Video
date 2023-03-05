@@ -57,7 +57,6 @@ if($array['code'] == '0'){
         $badurl = parse_url($array_2['data']['durl'][0]['url']); //获取并解析带有防盗链的视频url
         $video_host = array( //咱就是说只有一个域名怎么行呢
             "upos-sz-mirrorali",
-            "upos-sz-mirrorali02",
             "upos-sz-mirroralib",
             "upos-sz-mirroralio1",
             "upos-sz-mirroraliov",
@@ -152,7 +151,11 @@ function getBvid(string $video){
             } elseif ($array['host'] == 'm.bilibili.com') { //处理m站
                 $bvid = $array['path'];
             }
-            $bvid = str_replace("/video/", "", $bvid);
+            if (stristr($bvid,'/video/')) {
+                $bvid = str_replace("/video/", "", $bvid);
+            }else{
+                exit(json_encode(['code' => '-1','msg' => '输入参数有误！'],JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+            }
 
         } elseif (stristr($video, "av")) {
             $avid = explode("av", strtolower($video));
