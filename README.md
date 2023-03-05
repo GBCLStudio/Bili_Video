@@ -2,49 +2,35 @@
 
 ## 技术栈
 
-- PHP 8.0（7.4）
+- PHP 8.x
 
 ## How to use
 
-1. 首先你得在config.ini里进行一个cookie的配置
-2. 其次你得把它上传到一台2c2g以上的super server（否则你将享受10s+的超快解析时间）
-3. 然后你得进行一个php环境的配
-4. 接着你得跟着这个文档进行一个请求的学
-5. 最后你要进行一个请求的发
+通过 Composer 安装：
 
-## 请求参数
+```shell
+composer install gbcl/searchbv
+```
 
-请求Url: `GET HTTP/1.1 https://domain/path/to/bilibili.php`
+调用示范：
 
-### 参数: 
-
-| 参数 | 是否必须 | 支持类型 / 注解 |
-| -----| ---- | ---- |
-| video | 是 | 视频链接 / BV号 / AV号 |
-| format | 可选 | json（默认返回） / url（直接跳转链接） |
-
-### config.ini 文件:
-
-#### Request 部分：
-
-cookie就是上文提到的填写cookie处，F12的网络里找第一个请求翻到cookie那块复制SESSDATA和_uuid这两串数据（实测只有uuid那一段解析不出720p以上，估计改了）
-
-ua和header是请求b站api时用到的，默认忽略就行
-
-#### Common 部分：
-
-DisableCache 默认设置为false，如果需要让你的server不缓存这个page那你得进行一个配置的改，把false改成true（不会还有人不知道这两个boolean值吧）
+```php
+$AccountArr = array('_uuid=; SESSDATA=','Content-type: application/json;charset=UTF-8','Mozilla/5.0 (balabala)');
+$queryVideo = array('av1919810', 'BV1xx411c7mu');
+$videoJson = (new GBCLStudio\SearchBv($AccountArr,$queryVideo))->searchVideo();
+echo json_encode($videoJson);
+```
 
 ### 返回示例：
 
-若一切正确，请求后你会得到这样一串json：
+若一切正确，你会得到这样一串json：
 
 ```
 {
     "code": 1,
     "msg": "解析成功！",
     "title": "最终鬼畜蓝蓝路",
-    "imgurl": "http://i2.hdslb.com/bfs/archive/34d8fdf08d1fe28c229dec2fd122815a1d012908.jpg",
+    "imgurl": "https://i2.hdslb.com/bfs/archive/34d8fdf08d1fe28c229dec2fd122815a1d012908.jpg",
     "desc": "sm2057168 把这个音mad的图腾和支柱从UP的怒火中搬出来重新立好，这是我所能做的最后的事情了。", //简介
     "data": {
         "title": "",

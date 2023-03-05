@@ -1,0 +1,35 @@
+{
+  "name": "gbcl/searchbv",
+  "type": "library",
+  "description": "An API framework to parse Bilibili videos.",
+  "keywords": [
+    "bili",
+    "bilibili api",
+    "bv",
+    "video",
+    "lightweight"
+  ],
+  "homepage": "https://github.com/GBCLStudio/Bili_Video",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "GBCLStudio",
+      "email": "gbclstudio@gmail.com",
+      "homepage": "https://studio.gbclstudio.cn"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/GBCLStudio/Bili_Video/issues",
+    "source": "https://github.com/GBCLStudio/Bili_Video"
+  },
+  "require": {
+    "php": ">=7.4.0",
+    "ext-curl": "*",
+    "ext-openssl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "GBCLStudio\\" : "src/"
+    }
+  }
+}
