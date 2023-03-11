@@ -15,10 +15,12 @@ composer require gbcl/searchbv
 调用示范：
 
 ```php
-$AccountArr = array('_uuid=; SESSDATA=','Content-type: application/json;charset=UTF-8','Mozilla/5.0 (balabala)');
-$queryVideo = array('av1919810', 'BV1xx411c7mu');
-$videoJson = (new GBCLStudio\SearchBv($AccountArr,$queryVideo))->searchVideo();
-echo json_encode($videoJson);
+use GBCLStudio\SearchBv;
+
+$AccountsArr = array('_uuid=; SESSDATA=','Content-type: application/json;charset=UTF-8','Mozilla/5.0 (balabala)'); // array(cookie,Content-type,UserAgent)
+$queryVideo = array('av1919810', 'BV1xx411c7mu'); // or $queryVideo = 'BV1FD4y1776T';
+$searchApi = new GBCLStudio\SearchBv(Accounts,$queryVideo);
+echo json_encode($searchApi->searchVideo(),480);
 ```
 
 ### 返回示例：
