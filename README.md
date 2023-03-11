@@ -19,7 +19,7 @@ use GBCLStudio\SearchBv;
 
 $AccountsArr = array('_uuid=; SESSDATA=','Content-type: application/json;charset=UTF-8','Mozilla/5.0 (balabala)'); // array(cookie,Content-type,UserAgent)
 $queryVideo = array('av1919810', 'BV1xx411c7mu'); // or $queryVideo = 'BV1FD4y1776T';
-$searchApi = new GBCLStudio\SearchBv(Accounts,$queryVideo);
+$searchApi = new GBCLStudio\SearchBv($AccountsArr,$queryVideo);
 echo json_encode($searchApi->searchVideo(),480);
 ```
 
