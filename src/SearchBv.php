@@ -33,7 +33,7 @@ class SearchBv
     public function __construct(array $accountInfo, string|array $queryVideo)
     {
         $cookie = $accountInfo[0];
-        $header = $accountInfo[1];
+        $header = $accountInfo[1] ?? 'Content-type: application/json;charset=UTF-8';
         $useragent = $accountInfo[2];
 
         $this->cookie = $cookie;
